@@ -4,3 +4,10 @@
 __pycache__
 .env
 *.pdf
+node_modules
+.svelte-kit/
+dist/
+.env.local
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*

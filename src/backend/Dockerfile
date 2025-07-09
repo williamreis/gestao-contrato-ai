@@ -1,4 +1,4 @@
-# Dockerfile para Contrato AI Backend (FastAPI)
+# Dockerfile para Documento AI Backend (FastAPI)
 FROM python:3.11-slim
 
 # Define o diretório de trabalho dentro do contêiner

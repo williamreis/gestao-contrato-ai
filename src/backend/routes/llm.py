@@ -19,7 +19,7 @@ router = APIRouter(prefix="/llm", tags=["LLM"])
 
 @router.post("/ask", response_model=QuestionResponse)
 async def ask_question(request: QuestionRequest):
-    """Responde a perguntas sobre contratos usando o LLM com base nos resultados da busca semântica."""
+    """Responde a perguntas sobre documentos usando o LLM com base nos resultados da busca semântica."""
     start_time = time.time()
 
     try:
@@ -30,7 +30,7 @@ async def ask_question(request: QuestionRequest):
         print(f"[LLM] Recebida pergunta: '{request.question}' (max_results={request.max_results})")
 
         # 1. Busca direta no Pinecone usando a função buscar_documentos
-        # IMPORTANTE: Contornando a função buscar_contratos para evitar incompatibilidade de formatos
+        # IMPORTANTE: Contornando a função buscar_documentos para evitar incompatibilidade de formatos
 
         print(f"[LLM] Realizando busca semântica direta...")
         try:
@@ -62,12 +62,12 @@ async def ask_question(request: QuestionRequest):
                 messages=[
                     {
                         "role": "system",
-                        "content": "Você é um assistente especializado em contratos (juridico, prestação de serviço, imobiliários) com acesso a uma base de documentos. "
+                        "content": "Você é um assistente especializado em documentos (juridico, prestação de serviço, imobiliários) com acesso a uma base de documentos. "
                                    "Suas respostas devem ser:"
                                    "\n1. DETALHADAS - Forneça informações completas e abrangentes sobre o que foi perguntado."
                                    "\n2. ESPECÍFICAS - Quando a pergunta for sobre pessoas, entidades ou cláusulas, inclua TODOS os detalhes disponíveis nos documentos."
                                    "\n3. ESTRUTURADAS - Organize a resposta de forma clara, usando listas ou seções quando apropriado."
-                                   "\n4. BASEADAS EM EVIDÊNCIAS - Cite explicitamente de qual documento/contrato a informação foi extraída."
+                                   "\n4. BASEADAS EM EVIDÊNCIAS - Cite explicitamente de qual documento/documento a informação foi extraída."
                                    "\n. Cite explicitamente códigos de barras, caso as informações sejam de boletos de cobrança."
                     },
                     {

@@ -2,15 +2,15 @@ from pydantic import BaseModel, ConfigDict
 from typing import List, Optional
 
 
-class ContratoBase(BaseModel):
+class DocumentoBase(BaseModel):
     arquivo: str
     texto: str
 
 
-class ContratoResponse(ContratoBase):
+class DocumentoResponse(DocumentoBase):
     score: float = 0.0
 
 
 class SearchResponse(BaseModel):
-    resultados: List[ContratoResponse]
+    resultados: List[DocumentoResponse]
     total: int

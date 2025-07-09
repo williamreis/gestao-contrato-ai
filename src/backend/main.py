@@ -3,7 +3,7 @@ import os
 import time
 from fastapi import FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
-from routes import contrato, storage, llm
+from routes import documento, storage, llm
 
 # Carrega variáveis de ambiente do .env na raiz do backend
 backend_dir = os.path.dirname(os.path.abspath(__file__))
@@ -13,7 +13,7 @@ load_dotenv(dotenv_path=env_path)
 """
  Configuração da aplicação FastAPI 
 """
-app = FastAPI(title="Contrato AI API", version="2.0.0")
+app = FastAPI(title="Documento AI API", version="2.0.0")
 
 """
 Configurar CORS
@@ -28,7 +28,7 @@ app.add_middleware(
     expose_headers=["*"],
 )
 
-app.include_router(contrato.router)
+app.include_router(documento.router)
 app.include_router(storage.router)
 app.include_router(llm.router)
 

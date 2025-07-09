@@ -3,18 +3,18 @@ import time
 from fastapi import APIRouter, Query, HTTPException, status
 from openai import OpenAI
 from pinecone import Pinecone
-from schemas.contrato import ContratoResponse, SearchResponse
+from schemas.documento import DocumentoResponse, SearchResponse
 
 # Env
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
 PINECONE_HOST = os.getenv("PINECONE_HOST")
-PINECONE_INDEX_NAME = os.getenv("PINECONE_INDEX_NAME", "contrato-ai")
+PINECONE_INDEX_NAME = os.getenv("PINECONE_INDEX_NAME", "documento-ai")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 """
-Rota para gerenciar Contratos
+Rota para gerenciar Documentos
 """
-router = APIRouter(prefix="/contrato", tags=["Contratos"])
+router = APIRouter(prefix="/documento", tags=["Documentos"])
 
 # Configurações da OpenAI
 openai_client = OpenAI(api_key=OPENAI_API_KEY)
@@ -126,12 +126,12 @@ def read_root():
 
 
 @router.get("/list", response_model=SearchResponse)
-def listar_contratos(
+def listar_documentos(
         skip: int = Query(0, description="Número de registros para pular"),
         limit: int = Query(10, description="Número máximo de registros para retornar")
 ):
     """
-    Lista todos os contratos disponíveis com paginação.
+    Lista todos os documentos disponíveis com paginação.
     """
     global index
 
@@ -168,7 +168,7 @@ def listar_contratos(
 
         resultados = []
         for match in matches:
-            resultados.append(ContratoResponse(
+            resultados.append(DocumentoResponse(
                 arquivo=match.metadata.get("arquivo", ""),
                 texto=match.metadata.get("texto", ""),
                 score=match.score
@@ -177,26 +177,26 @@ def listar_contratos(
         return SearchResponse(resultados=resultados, total=total)
 
     except Exception as e:
-        print(f"Erro ao listar contratos: {e}")
+        print(f"Erro ao listar documentos: {e}")
 
         # Tenta reconectar em caso de erro
         if conectar_pinecone():
             # Tenta novamente após reconexão bem-sucedida
             try:
-                return listar_contratos(skip=skip, limit=limit)
+                return listar_documentos(skip=skip, limit=limit)
             except Exception:
                 pass
 
-        raise HTTPException(status_code=500, detail=f"Erro ao listar contratos: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Erro ao listar documentos: {str(e)}")
 
 
 @router.get("/search", response_model=SearchResponse)
-def buscar_contratos(
+def buscar_documentos(
         q: str = Query(..., description="Consulta para busca"),
         limit: int = Query(5, description="Número máximo de resultados")
 ):
     """
-    Realiza uma busca semântica nos contratos usando o Pinecone com embeddings da OpenAI.
+    Realiza uma busca semântica nos documentos usando o Pinecone com embeddings da OpenAI.
     """
     global index
 
@@ -223,7 +223,7 @@ def buscar_contratos(
 
         resultados = []
         for match in resultados_query.matches:
-            resultados.append(ContratoResponse(
+            resultados.append(DocumentoResponse(
                 arquivo=match.metadata.get("arquivo", ""),
                 texto=match.metadata.get("texto", ""),
                 score=match.score
@@ -240,7 +240,7 @@ def buscar_contratos(
         if conectar_pinecone():
             # Tenta novamente após reconexão bem-sucedida
             try:
-                return buscar_contratos(q=q, limit=limit)
+                return buscar_documentos(q=q, limit=limit)
             except Exception:
                 pass
 

@@ -16,14 +16,14 @@ const api = axios.create({
   timeout: 10000
 });
 
-export interface Contrato {
+export interface Documento {
   arquivo: string;
   texto: string;
   score?: number;
 }
 
 export interface SearchResponse {
-  resultados: Contrato[];
+  resultados: Documento[];
   total: number;
 }
 
@@ -35,12 +35,12 @@ export interface LLMResponse {
   }>;
 }
 
-export const contratoService = {
-  // Listar todos os contratos com paginação
-  listarContratos: async (skip = 0, limit = 10): Promise<SearchResponse> => {
+export const documentoService = {
+  // Listar todos os documentos com paginação
+  listarDocumentos: async (skip = 0, limit = 10): Promise<SearchResponse> => {
     try {
-      console.log(`Chamando API: /contrato/list?skip=${skip}&limit=${limit}`);
-      const response = await api.get(`/contrato/list?skip=${skip}&limit=${limit}`);
+      console.log(`Chamando API: /documento/list?skip=${skip}&limit=${limit}`);
+      const response = await api.get(`/documento/list?skip=${skip}&limit=${limit}`);
       console.log('Resposta da API:', response.data);
       return response.data;
     } catch (error) {
@@ -49,11 +49,11 @@ export const contratoService = {
     }
   },
 
-  // Buscar contratos por consulta semântica
-  buscarContratos: async (query: string, limit = 5): Promise<SearchResponse> => {
+  // Buscar documentos por consulta semântica
+  buscarDocumentos: async (query: string, limit = 5): Promise<SearchResponse> => {
     try {
-      console.log(`Chamando API: /contrato/search?q=${encodeURIComponent(query)}&limit=${limit}`);
-      const response = await api.get(`/contrato/search?q=${encodeURIComponent(query)}&limit=${limit}`);
+      console.log(`Chamando API: /documento/search?q=${encodeURIComponent(query)}&limit=${limit}`);
+      const response = await api.get(`/documento/search?q=${encodeURIComponent(query)}&limit=${limit}`);
       console.log('Resposta da API:', response.data);
       return response.data;
     } catch (error) {
@@ -64,7 +64,7 @@ export const contratoService = {
 
   // Listar todos os arquivos únicos
   listarArquivos: async (): Promise<string[]> => {
-    const response = await api.get('/contrato/files');
+    const response = await api.get('/documento/files');
     return response.data.arquivos;
   },
 

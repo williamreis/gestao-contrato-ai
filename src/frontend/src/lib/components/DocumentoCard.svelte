@@ -1,24 +1,24 @@
 <script lang="ts">
-  import type { Contrato } from '$lib/services/api';
+  import type { Documento } from '$lib/services/api';
   
-  export let contrato: Contrato;
+  export let documento: Documento;
   export let expanded = false;
 </script>
 
 <div class="card bg-base-100 shadow-xl mb-4 hover:shadow-2xl transition-shadow duration-300">
   <div class="card-body">
     <h2 class="card-title flex justify-between">
-      <span>{contrato.arquivo}</span>
-      {#if contrato.score !== undefined}
-        <span class="badge badge-primary">{(contrato.score * 100).toFixed(0)}% relevante</span>
+      <span>{documento.arquivo}</span>
+      {#if documento.score !== undefined}
+        <span class="badge badge-primary">{(documento.score * 100).toFixed(0)}% relevante</span>
       {/if}
     </h2>
     
     <div class="mt-2">
-      {#if expanded || contrato.texto.length < 200}
-        <p class="whitespace-pre-line">{contrato.texto}</p>
+      {#if expanded || documento.texto.length < 200}
+        <p class="whitespace-pre-line">{documento.texto}</p>
       {:else}
-        <p class="whitespace-pre-line">{contrato.texto.substring(0, 200)}...</p>
+        <p class="whitespace-pre-line">{documento.texto.substring(0, 200)}...</p>
       {/if}
     </div>
     

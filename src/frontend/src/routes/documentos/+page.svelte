@@ -2,13 +2,13 @@
   import { onMount } from 'svelte';
   import { page } from '$app/stores';
   import SearchBar from '$lib/components/SearchBar.svelte';
-  import ContratoCard from '$lib/components/ContratoCard.svelte';
-  import { contratoService, type Contrato, type SearchResponse } from '$lib/services/api';
+  import DocumentoCard from '$lib/components/DocumentoCard.svelte';
+  import { documentoService, type Documento, type SearchResponse } from '$lib/services/api';
   
   let searchQuery = '';
   let isLoading = false;
   let error = '';
-  let resultados: Contrato[] = [];
+  let resultados: Documento[] = [];
   let total = 0;
   let currentPage = 1;
   let itemsPerPage = 10;
@@ -22,29 +22,29 @@
       searchQuery = urlQuery;
       performSearch(searchQuery);
     } else {
-      loadContratos();
+      loadDocumentos();
     }
   }
   
   onMount(() => {
     if (!searchQuery) {
-      loadContratos();
+      loadDocumentos();
     }
   });
   
-  async function loadContratos(page = 1) {
+  async function loadDocumentos(page = 1) {
     isLoading = true;
     error = '';
     
     try {
       const skip = (page - 1) * itemsPerPage;
-      const response = await contratoService.listarContratos(skip, itemsPerPage);
+      const response = await documentoService.listarDocumentos(skip, itemsPerPage);
       resultados = response.resultados;
       total = response.total;
       currentPage = page;
     } catch (err) {
-      console.error('Erro ao carregar contratos:', err);
-      error = 'Não foi possível carregar os contratos. Por favor, tente novamente.';
+      console.error('Erro ao carregar documentos:', err);
+      error = 'Não foi possível carregar os documentos. Por favor, tente novamente.';
     } finally {
       isLoading = false;
     }
@@ -59,7 +59,7 @@
     
     try {
       if (useLLM) {
-        llmResponse = await contratoService.askQuestion(query);
+        llmResponse = await documentoService.askQuestion(query);
         resultados = llmResponse.sources.map(source => ({
           arquivo: source.filename || 'Documento',
           texto: '',
@@ -67,7 +67,7 @@
         }));
         total = resultados.length;
       } else {
-        const response = await contratoService.buscarContratos(query);
+        const response = await documentoService.buscarDocumentos(query);
         resultados = response.resultados;
         total = response.total;
       }
@@ -93,25 +93,25 @@
   
   function handlePageChange(page: number) {
     if (!searchQuery) {
-      loadContratos(page);
+      loadDocumentos(page);
     }
   }
 </script>
 
 <div class="mb-8">
   <h1 class="text-3xl font-bold mb-6">
-    {searchQuery ? 'Resultados da Busca' : 'Todos os Contratos'}
+    {searchQuery ? 'Resultados da Busca' : 'Todos os Documentos'}
   </h1>
   
   <div class="flex items-center gap-4">
     <SearchBar 
       bind:value={searchQuery} 
-      placeholder={useLLM ? "Faça uma pergunta sobre os contratos..." : "Buscar em contratos..."}
+      placeholder={useLLM ? "Faça uma pergunta sobre algum documento..." : "Buscar em documentos..."}
       on:search={handleSearch}
     />
     
-    <label class="cursor-pointer label">
-      <span class="label-text mr-2">Modo Pergunta</span> 
+    <label class="cursor-pointer labelx">
+      <span class="label-text mr-3">Assistente IA</span>
       <input 
         type="checkbox" 
         class="toggle toggle-primary" 
@@ -140,7 +140,7 @@
     <span>
       {searchQuery 
         ? `Nenhum resultado encontrado para "${searchQuery}". Tente uma busca diferente.` 
-        : 'Nenhum contrato disponível no momento.'}
+        : 'Nenhum documento disponível no momento.'}
     </span>
   </div>
 {:else}
@@ -148,7 +148,7 @@
     <p class="text-sm text-gray-500">
       {searchQuery 
         ? `Encontrados ${total} resultados para "${searchQuery}"` 
-        : `Mostrando ${(currentPage - 1) * itemsPerPage + 1}-${Math.min(currentPage * itemsPerPage, total)} de ${total} contratos`}
+        : `Mostrando ${(currentPage - 1) * itemsPerPage + 1}-${Math.min(currentPage * itemsPerPage, total)} de ${total} documentos`}
     </p>
   </div>
   
@@ -160,7 +160,7 @@
         </div>
         {#if llmResponse.sources.length > 0}
           <div class="mt-4">
-            <h3 class="font-bold">Contratos encontrados:</h3>
+            <h3 class="font-bold">Documentos encontrados:</h3>
             <ul class="list-disc pl-5">
               {#each llmResponse.sources as source}
                 <li>{source.filename || 'Documento'}</li>
@@ -173,8 +173,8 @@
   {/if}
   
   <div class="space-y-6">
-    {#each resultados as contrato}
-      <ContratoCard {contrato} />
+    {#each resultados as documento}
+      <DocumentoCard {documento} />
     {/each}
   </div>
   

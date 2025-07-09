@@ -17,7 +17,7 @@
   function handleSearch(event: CustomEvent<string>) {
     const query = event.detail;
     if (query) {
-      goto(`/contratos?q=${encodeURIComponent(query)}`);
+      goto(`/documentos?q=${encodeURIComponent(query)}`);
     }
   }
 </script>
@@ -31,17 +31,17 @@
           <!-- Texto Principal -->
           <div class="lg:w-2/2 text-center lg:text-left" in:fly={{ y: 20, duration: 800, delay: 300 }}>
             <h1 class="text-4xl md:text-5xl font-bold tracking-tight mb-4">
-              <span class="text-primary">Gestão de Contrato Inteligente</span>
+              <span class="text-primary">Gestão de Documento Inteligente</span>
             </h1>
             <p class="text-lg opacity-90 mb-8 leading-relaxed">
-              Explore contratos de forma inteligente com busca semântica avançada, encontrando cláusulas, termos e informações relevantes a partir de perguntas em linguagem natural.
+              Explore documentos de forma inteligente com busca semântica avançada. Encontre cláusulas, termos, informações relevantes ou respostas para perguntas em linguagem natural — seja em contratos, políticas, laudos, regulamentos, documentos jurídicos, financeiros, de RH e muito mais.
             </p>
             
             <!-- Barra de Pesquisa -->
             <div class="w-full max-w-x10 mx-auto lg:mx-0">
               <SearchBar 
                 bind:value={searchQuery} 
-                placeholder="Ex: Quais são as cláusulas de rescisão? Qual o valor do aluguel?"
+                placeholder="Ex: Qual é o documento que trata do seguinte assunto e quais cláusulas contratuais estão relacionadas a ele?"
                 on:search={handleSearch}
               />
             </div>
@@ -75,8 +75,8 @@
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
             </div>
-            <h2 class="card-title font-bold">Contratos Digitalizados</h2>
-            <p class="opacity-75">Acesse rapidamente todos os contratos imobiliários em um só lugar.</p>
+            <h2 class="card-title font-bold">Documentos Digitalizados</h2>
+            <p class="opacity-75">Acesse rapidamente todos os seus documentos e contratos em um só lugar, com organização e praticidade para diversos segmentos.</p>
           </div>
         </div>
         

@@ -38,7 +38,7 @@
 
 <div class="min-h-screen flex flex-col bg-base-100 animate-fade-in">
   <header class="sticky top-0 z-50">
-    <div class="navbar bg-gradient-to-r from-primary to-secondary text-primary-content shadow-lg">
+    <div class="navbar bg-blue-700 text-primary-content shadow-lg">
       <div class="navbar-start">
         <div class="dropdown">
           <label tabindex="0" class="btn btn-ghost lg:hidden hover:bg-primary/20 transition-all duration-300">
@@ -47,18 +47,60 @@
             </svg>
           </label>
           <ul tabindex="0" class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow-lg bg-base-100 rounded-xl w-52 text-base-content">
-            <li><a href="/" class="font-medium hover:text-primary transition-colors duration-300">Início</a></li>
-            <li><a href="/contratos" class="font-medium hover:text-primary transition-colors duration-300">Contratos</a></li>
+            <li>
+              <a href="/" class="font-medium flex items-center gap-2 hover:text-primary transition-colors duration-300">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+                  </svg>
+                  Início
+              </a>
+            </li>
+            <li>
+              <a href="/documentos" class="font-medium flex items-center gap-2 hover:text-primary transition-colors duration-300">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                  </svg>
+                  Documentos
+              </a>
+            </li>
+            <li>
+              <a href="/upload" class="font-medium flex items-center gap-2 hover:text-primary transition-colors duration-300">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 17V15H16V17H8M16 10L12 6L8 10H10.5V14H13.5V10H16M12 2C17.5 2 22 6.5 22 12C22 17.5 17.5 22 12 22C6.5 22 2 17.5 2 12C2 6.5 6.5 2 12 2M12 4C7.58 4 4 7.58 4 12C4 16.42 7.58 20 12 20C16.42 20 20 16.42 20 12C20 7.58 16.42 4 12 4Z" />
+                  </svg>
+                  Enviar Documento
+              </a>
+            </li>
           </ul>
         </div>
         <a href="/" class="btn btn-ghost normal-case text-xl font-bold tracking-tight hover:bg-primary/20 transition-all duration-300">
-          <span class="text-white">Gestão de Contrato</span>
+          <span class="text-white">Gestão de Documento IA</span>
         </a>
       </div>
       <div class="navbar-center hidden lg:flex">
         <ul class="menu menu-horizontal px-1">
-          <li><a href="/" class="font-medium hover:bg-primary/20 transition-colors duration-300">Início</a></li>
-          <li><a href="/contratos" class="font-medium hover:bg-primary/20 transition-colors duration-300">Contratos</a></li>
+          <li>
+            <a href="/" class="font-medium flex items-center gap-2 hover:bg-primary/20 transition-colors duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z" />
+              </svg>
+              Início
+            </a>
+          </li>
+          <li>
+            <a href="/documentos" class="font-medium flex items-center gap-2 hover:bg-primary/20 transition-colors duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              Documentos
+            </a>
+          </li>
+          <li>
+            <a href="/upload" class="font-medium flex items-center gap-2 hover:bg-primary/20 transition-colors duration-300">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path d="M8 17V15H16V17H8M16 10L12 6L8 10H10.5V14H13.5V10H16M12 2C17.5 2 22 6.5 22 12C22 17.5 17.5 22 12 22C6.5 22 2 17.5 2 12C2 6.5 6.5 2 12 2M12 4C7.58 4 4 7.58 4 12C4 16.42 7.58 20 12 20C16.42 20 20 16.42 20 12C20 7.58 16.42 4 12 4Z" /></svg>
+              Enviar Documento
+            </a>
+          </li>
         </ul>
       </div>
       <div class="navbar-end">

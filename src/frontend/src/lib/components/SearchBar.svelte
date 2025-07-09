@@ -1,7 +1,7 @@
 <script lang="ts">
   import { createEventDispatcher } from 'svelte';
   
-  export let placeholder = 'Buscar em contratos...';
+  export let placeholder = 'Buscar em documentos...';
   export let value = '';
   
   const dispatch = createEventDispatcher();

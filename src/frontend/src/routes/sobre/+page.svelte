@@ -1,19 +1,19 @@
 <script>
-  // Página Sobre - Contrato AI
+  // Página Sobre - Documento AI
 </script>
 
 <div class="prose max-w-none">
-  <h1>Sobre o Contrato AI</h1>
+  <h1>Sobre o Documento AI</h1>
   
   <div class="card bg-base-100 shadow-xl mb-8">
     <div class="card-body">
       <h2 class="card-title">Nossa Solução</h2>
       <p>
-        A plataforma avançada de consulta de contratos que utiliza
+        A plataforma avançada de consulta de documentos que utiliza
         tecnologia de busca semântica para facilitar o acesso e a compreensão de documentos jurídicos.
       </p>
       <p>
-        Nosso sistema permite que você encontre informações específicas em contratos usando linguagem natural, 
+        Nosso sistema permite que você encontre informações específicas em documentos usando linguagem natural,
         sem precisar conhecer os termos exatos ou navegar manualmente pelos documentos.
       </p>
     </div>
@@ -55,7 +55,7 @@
         <div class="step step-primary">
           <div class="text-left ml-2">
             <h3 class="font-bold">Upload</h3>
-            <p class="text-sm">Os contratos são processados e armazenados no sistema</p>
+            <p class="text-sm">Os documentos são processados e armazenados no sistema</p>
           </div>
         </div>
         <div class="step step-primary">
@@ -73,7 +73,7 @@
         <div class="step step-primary">
           <div class="text-left ml-2">
             <h3 class="font-bold">Resultados</h3>
-            <p class="text-sm">O sistema encontra as informações mais relevantes nos contratos</p>
+            <p class="text-sm">O sistema encontra as informações mais relevantes nos documentos</p>
           </div>
         </div>
       </div>

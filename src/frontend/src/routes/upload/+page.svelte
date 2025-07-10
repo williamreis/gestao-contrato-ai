@@ -33,7 +33,7 @@
 </script>
 
 <div class="prose max-w-none">
-  <h1>Sobre o Documento AI</h1>
+  <h1>Upload do Documento</h1>
   
   <!-- Formulário de upload -->
   <div class="card bg-base-100 shadow-xl mb-8">
@@ -54,48 +54,6 @@
     </div>
   </div>
 
-  <div class="card bg-base-100 shadow-xl mb-8">
-    <div class="card-body">
-      <h2 class="card-title">Nossa Solução</h2>
-      <p>
-        A plataforma avançada de consulta de documentos que utiliza
-        tecnologia de busca semântica para facilitar o acesso e a compreensão de documentos jurídicos.
-      </p>
-      <p>
-        Nosso sistema permite que você encontre informações específicas em documentos usando linguagem natural,
-        sem precisar conhecer os termos exatos ou navegar manualmente pelos documentos.
-      </p>
-    </div>
-  </div>
-  
-  <div class="card bg-base-100 shadow-xl mb-8">
-    <div class="card-body">
-      <h2 class="card-title">Tecnologia</h2>
-      <p>Nossa plataforma é construída com tecnologias modernas:</p>
-      
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-        <div>
-          <h3 class="text-lg font-bold">Backend</h3>
-          <ul>
-            <li>Python com FastAPI</li>
-            <li>MongoDB para armazenamento de dados</li>
-            <li>Índice vetorial para busca semântica</li>
-            <li>Modelo de embeddings Nomic para processamento de linguagem natural</li>
-          </ul>
-        </div>
-        
-        <div>
-          <h3 class="text-lg font-bold">Frontend</h3>
-          <ul>
-            <li>SvelteKit para uma interface rápida e responsiva</li>
-            <li>Tailwind CSS e DaisyUI para design moderno</li>
-            <li>Interface intuitiva e amigável</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-  
   <div class="card bg-base-100 shadow-xl">
     <div class="card-body">
       <h2 class="card-title">Como Funciona</h2>
@@ -104,25 +62,25 @@
         <div class="step step-primary">
           <div class="text-left ml-2">
             <h3 class="font-bold">Upload</h3>
-            <p class="text-sm">Os documentos são processados e armazenados no sistema</p>
+            <p class="text-sm">Os documentos são enviados e armazenados de forma segura no sistema</p>
           </div>
         </div>
         <div class="step step-primary">
           <div class="text-left ml-2">
             <h3 class="font-bold">Indexação</h3>
-            <p class="text-sm">Criamos embeddings e índices vetoriais para busca semântica</p>
+            <p class="text-sm">Geramos embeddings e índices vetoriais para habilitar a busca semântica avançada</p>
           </div>
         </div>
         <div class="step step-primary">
           <div class="text-left ml-2">
             <h3 class="font-bold">Consulta</h3>
-            <p class="text-sm">Você faz perguntas em linguagem natural</p>
+            <p class="text-sm">Você realiza perguntas em linguagem natural, sem necessidade de termos técnicos</p>
           </div>
         </div>
         <div class="step step-primary">
           <div class="text-left ml-2">
             <h3 class="font-bold">Resultados</h3>
-            <p class="text-sm">O sistema encontra as informações mais relevantes nos documentos</p>
+            <p class="text-sm">O sistema localiza e exibe as informações mais relevantes encontradas nos documentos</p>
           </div>
         </div>
       </div>

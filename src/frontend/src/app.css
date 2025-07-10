@@ -1,3 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.bg-gradient-to-br{
+color: #fff;
+background-image: linear-gradient(to bottom right, rgb(29 78 216 / var(--tw-bg-opacity, 1)),  rgb(29 78 216 / var(--tw-bg-opacity, 0)));
+}

@@ -74,7 +74,7 @@
           </ul>
         </div>
         <a href="/" class="btn btn-ghost normal-case text-xl font-bold tracking-tight hover:bg-primary/20 transition-all duration-300">
-          <span class="text-white">Gestão de Documento IA</span>
+          <span class="text-white">Documento RAG</span>
         </a>
       </div>
       <div class="navbar-center hidden lg:flex">

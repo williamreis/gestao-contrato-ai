@@ -3,18 +3,18 @@ import time
 from fastapi import APIRouter, Query, HTTPException, status
 from openai import OpenAI
 from pinecone import Pinecone
-from schemas.documento import DocumentoResponse, SearchResponse
+from schemas.document import DocumentResponse, SearchResponse
 
 # Env
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
 PINECONE_HOST = os.getenv("PINECONE_HOST")
-PINECONE_INDEX_NAME = os.getenv("PINECONE_INDEX_NAME", "documento-ai")
+PINECONE_INDEX_NAME = os.getenv("PINECONE_INDEX_NAME", "documento-rag")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 
 """
 Rota para gerenciar Documentos
 """
-router = APIRouter(prefix="/documento", tags=["Documentos"])
+router = APIRouter(prefix="/document", tags=["Documentos"])
 
 # Configurações da OpenAI
 openai_client = OpenAI(api_key=OPENAI_API_KEY)
@@ -126,7 +126,7 @@ def read_root():
 
 
 @router.get("/list", response_model=SearchResponse)
-def listar_documentos(
+def list_documents(
         skip: int = Query(0, description="Número de registros para pular"),
         limit: int = Query(10, description="Número máximo de registros para retornar")
 ):
@@ -168,7 +168,7 @@ def listar_documentos(
 
         resultados = []
         for match in matches:
-            resultados.append(DocumentoResponse(
+            resultados.append(DocumentResponse(
                 arquivo=match.metadata.get("arquivo", ""),
                 texto=match.metadata.get("texto", ""),
                 score=match.score
@@ -183,7 +183,7 @@ def listar_documentos(
         if conectar_pinecone():
             # Tenta novamente após reconexão bem-sucedida
             try:
-                return listar_documentos(skip=skip, limit=limit)
+                return list_documents(skip=skip, limit=limit)
             except Exception:
                 pass
 
@@ -191,7 +191,7 @@ def listar_documentos(
 
 
 @router.get("/search", response_model=SearchResponse)
-def buscar_documentos(
+def search_documents(
         q: str = Query(..., description="Consulta para busca"),
         limit: int = Query(5, description="Número máximo de resultados")
 ):
@@ -223,7 +223,7 @@ def buscar_documentos(
 
         resultados = []
         for match in resultados_query.matches:
-            resultados.append(DocumentoResponse(
+            resultados.append(DocumentResponse(
                 arquivo=match.metadata.get("arquivo", ""),
                 texto=match.metadata.get("texto", ""),
                 score=match.score
@@ -240,7 +240,7 @@ def buscar_documentos(
         if conectar_pinecone():
             # Tenta novamente após reconexão bem-sucedida
             try:
-                return buscar_documentos(q=q, limit=limit)
+                return search_documents(q=q, limit=limit)
             except Exception:
                 pass
 
@@ -248,7 +248,7 @@ def buscar_documentos(
 
 
 @router.get("/files")
-def listar_arquivos():
+def list_files():
     """
     Lista todos os nomes de arquivos únicos no índice.
     """
@@ -297,7 +297,7 @@ def listar_arquivos():
         if conectar_pinecone():
             # Tenta novamente após reconexão bem-sucedida
             try:
-                return listar_arquivos()
+                return list_files()
             except Exception:
                 pass
 

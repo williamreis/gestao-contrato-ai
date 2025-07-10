@@ -3,7 +3,7 @@ import time
 from fastapi import APIRouter, HTTPException
 from openai import OpenAI
 from schemas.llm import QuestionRequest, QuestionResponse
-from utils.pinecone import buscar_documentos
+from utils.pinecone import search_documents
 
 # Env
 OPENAI_MODELO = os.getenv("OPENAI_MODEL", "gpt-4o-mini")
@@ -29,13 +29,13 @@ async def ask_question(request: QuestionRequest):
 
         print(f"[LLM] Recebida pergunta: '{request.question}' (max_results={request.max_results})")
 
-        # 1. Busca direta no Pinecone usando a função buscar_documentos
-        # IMPORTANTE: Contornando a função buscar_documentos para evitar incompatibilidade de formatos
+        # 1. Busca direta no Pinecone usando a função search_documents
+        # IMPORTANTE: Contornando a função search_documents para evitar incompatibilidade de formatos
 
         print(f"[LLM] Realizando busca semântica direta...")
         try:
             # Busca direta nos documentos
-            documentos = buscar_documentos(request.question, request.max_results)
+            documentos = search_documents(request.question, request.max_results)
 
             # Verifica se há resultados
             if not documentos or len(documentos) == 0:

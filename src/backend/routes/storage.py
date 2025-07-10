@@ -2,7 +2,7 @@ import os
 import time
 import shutil
 from fastapi import APIRouter, UploadFile, File, HTTPException, BackgroundTasks, status
-from utils.processar_documento import processar_documento
+from utils.processing_document import processing_document
 
 """
 Rota para gerenciar Upload de Documentos
@@ -20,10 +20,10 @@ if not os.path.exists(PASTA_DOCUMENTOS):
     os.makedirs(PASTA_DOCUMENTOS)
 
 
-def processar_documento_background(caminho_arquivo: str):
+def processing_document_background(caminho_arquivo: str):
     """Processa um documento em segundo plano."""
     try:
-        processar_documento(caminho_arquivo)
+        processing_document(caminho_arquivo)
     except Exception as e:
         print(f"Erro ao processar documento em segundo plano: {e}")
 
@@ -55,7 +55,7 @@ async def upload_storage(background_tasks: BackgroundTasks, file: UploadFile = F
             shutil.copyfileobj(file.file, buffer)
 
         # Processa o documento em segundo plano
-        background_tasks.add_task(processar_documento_background, caminho_destino)
+        background_tasks.add_task(processing_document_background, caminho_destino)
 
         return {
             "status": "success",
@@ -68,7 +68,7 @@ async def upload_storage(background_tasks: BackgroundTasks, file: UploadFile = F
 
 
 @router.get("/list")
-async def listar_storage():
+async def list_storage():
     """
     Lista todos os documentos disponíveis na pasta de documentos.
     """

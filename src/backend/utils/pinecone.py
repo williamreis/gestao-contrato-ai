@@ -6,14 +6,14 @@ from openai import OpenAI
 # ENV
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
 PINECONE_HOST = os.getenv("PINECONE_HOST")
-PINECONE_INDEX_NAME = os.getenv("PINECONE_INDEX_NAME", "documento-ai")
+PINECONE_INDEX_NAME = os.getenv("PINECONE_INDEX_NAME", "documento-rag")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 EMBEDDING_MODEL = "text-embedding-3-small"
 
 openai_client = OpenAI(api_key=OPENAI_API_KEY)
 
 
-def inicializar_pinecone():
+def init_pinecone():
     """Inicializa a conexão com o Pinecone e retorna o índice."""
     if not PINECONE_API_KEY:
         raise ValueError("PINECONE_API_KEY não encontrada no arquivo .env")
@@ -83,7 +83,7 @@ def processar_e_indexar_documento(texto, metadata, id=None, index=None):
 
         # Usa o índice fornecido ou inicializa um novo
         if index is None:
-            index = inicializar_pinecone()
+            index = init_pinecone()
 
         # Upsert no Pinecone
         index.upsert(vectors=[(id, embedding, metadata)])
@@ -94,7 +94,7 @@ def processar_e_indexar_documento(texto, metadata, id=None, index=None):
         raise
 
 
-def buscar_documentos(query, top_k=5):
+def search_documents(query, top_k=5):
     """
     Realiza uma busca semântica no Pinecone.
     
@@ -106,7 +106,7 @@ def buscar_documentos(query, top_k=5):
         Lista de documentos mais relevantes
     """
     if not query or not query.strip():
-        print("Erro: consulta vazia enviada para buscar_documentos")
+        print("Erro: consulta vazia enviada para search_documents")
         return []
 
     try:
@@ -139,7 +139,7 @@ def buscar_documentos(query, top_k=5):
 
         # Inicializa o Pinecone e conecta ao índice
         try:
-            index = inicializar_pinecone()
+            index = init_pinecone()
             if not index:
                 raise ConnectionError("Não foi possível conectar ao Pinecone")
         except Exception as e:
@@ -218,7 +218,7 @@ def buscar_documentos(query, top_k=5):
         return []
 
 
-def listar_todos_documentos(limit=100):
+def list_all_documents(limit=100):
     """
     Lista todos os documentos no índice.
     
@@ -230,7 +230,7 @@ def listar_todos_documentos(limit=100):
     """
     try:
         # Inicializa o Pinecone e conecta ao índice
-        index = inicializar_pinecone()
+        index = init_pinecone()
 
         # Obtém estatísticas do índice
         stats = index.describe_index_stats()

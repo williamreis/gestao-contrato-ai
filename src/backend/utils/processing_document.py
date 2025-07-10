@@ -17,7 +17,7 @@ load_dotenv(dotenv_path=env_path)
 # Configurações do Pinecone
 PINECONE_API_KEY = os.getenv("PINECONE_API_KEY")
 PINECONE_HOST = os.getenv("PINECONE_HOST")
-PINECONE_INDEX_NAME = os.getenv("PINECONE_INDEX_NAME", "documento-ai")
+PINECONE_INDEX_NAME = os.getenv("PINECONE_INDEX_NAME", "documento-rag")
 OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
 EMBEDDING_MODEL = "text-embedding-3-small"
 
@@ -49,7 +49,7 @@ def gerar_embedding(texto):
         raise
 
 
-def inicializar_pinecone():
+def init_pinecone():
     """Inicializa a conexão com o Pinecone e retorna o índice."""
     try:
         # Inicializa o cliente Pinecone com a API V2
@@ -70,7 +70,7 @@ def inicializar_pinecone():
         sys.exit(1)
 
 
-def processar_documento(caminho_pdf):
+def processing_document(caminho_pdf):
     """
     Processa um único documento PDF e o indexa no Pinecone.
     
@@ -92,7 +92,7 @@ def processar_documento(caminho_pdf):
     print(f"Processando documento: {nome_arquivo}")
 
     # Inicializa o Pinecone
-    index = inicializar_pinecone()
+    index = init_pinecone()
 
     try:
         # Carrega o PDF
@@ -186,7 +186,7 @@ def processar_pasta_documentos(pasta="../storage"):
     for nome_arquivo in os.listdir(pasta):
         if nome_arquivo.lower().endswith('.pdf'):
             caminho_completo = os.path.join(pasta, nome_arquivo)
-            chunks = processar_documento(caminho_completo)
+            chunks = processing_document(caminho_completo)
 
             if chunks > 0:
                 total_documentos += 1
@@ -203,7 +203,7 @@ if __name__ == "__main__":
     # Se um arquivo específico foi fornecido como argumento
     if len(sys.argv) > 1:
         caminho_arquivo = sys.argv[1]
-        processar_documento(caminho_arquivo)
+        processing_document(caminho_arquivo)
     else:
         # Processa todos os documentos na pasta
         processar_pasta_documentos()

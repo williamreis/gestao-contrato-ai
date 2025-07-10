@@ -26,7 +26,7 @@
   {#if isVisible}
     <div class="max-w-9xl mx-auto" in:fade={{ duration: 800, delay: 200 }}>
       <!-- Hero Section com Gradiente Animado -->
-      <div class="hero rounded-2xl overflow-hidden bg-gradient-to-br from-primary/5 to-secondary/5 backdrop-blur-sm shadow-lg mb-16">
+      <div class="hero rounded-1xl overflow-hidden bg-gradient-to-br from-primary/5 to-secondary/5 backdrop-blur-sm shadow-lg mb-16">
         <div class="hero-content flex-col lg:flex-row py-12 px-8">
           <!-- Texto Principal -->
           <div class="lg:w-2/2 text-center lg:text-left" in:fly={{ y: 20, duration: 800, delay: 300 }}>

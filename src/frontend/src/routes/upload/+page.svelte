@@ -33,8 +33,7 @@
 </script>
 
 <div class="prose max-w-none">
-  <h1>Upload do Documento</h1>
-  
+
   <!-- Formulário de upload -->
   <div class="card bg-base-100 shadow-xl mb-8">
     <div class="card-body">

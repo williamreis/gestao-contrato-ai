@@ -39,8 +39,8 @@ export const documentoService = {
   // Listar todos os documentos com paginação
   listarDocumentos: async (skip = 0, limit = 10): Promise<SearchResponse> => {
     try {
-      console.log(`Chamando API: /documento/list?skip=${skip}&limit=${limit}`);
-      const response = await api.get(`/documento/list?skip=${skip}&limit=${limit}`);
+      console.log(`Chamando API: /document/list?skip=${skip}&limit=${limit}`);
+      const response = await api.get(`/document/list?skip=${skip}&limit=${limit}`);
       console.log('Resposta da API:', response.data);
       return response.data;
     } catch (error) {
@@ -52,8 +52,8 @@ export const documentoService = {
   // Buscar documentos por consulta semântica
   buscarDocumentos: async (query: string, limit = 5): Promise<SearchResponse> => {
     try {
-      console.log(`Chamando API: /documento/search?q=${encodeURIComponent(query)}&limit=${limit}`);
-      const response = await api.get(`/documento/search?q=${encodeURIComponent(query)}&limit=${limit}`);
+      console.log(`Chamando API: /document/search?q=${encodeURIComponent(query)}&limit=${limit}`);
+      const response = await api.get(`/document/search?q=${encodeURIComponent(query)}&limit=${limit}`);
       console.log('Resposta da API:', response.data);
       return response.data;
     } catch (error) {
@@ -64,7 +64,7 @@ export const documentoService = {
 
   // Listar todos os arquivos únicos
   listarArquivos: async (): Promise<string[]> => {
-    const response = await api.get('/documento/files');
+    const response = await api.get('/document/files');
     return response.data.arquivos;
   },
 

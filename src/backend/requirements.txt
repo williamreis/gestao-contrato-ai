@@ -1,12 +1,14 @@
 langchain==0.3.18
 langchain-community==0.3.16
 pypdf==5.4.0
-python-dotenv==1.0.1
+python-dotenv==1.1.0
 openai==1.74.0
 einops==0.8.1
 fastapi==0.115.11
+fastapi_mcp==0.3.6
 uvicorn==0.34.0
 pydantic==2.11.3
 python-multipart==0.0.20
 pinecone==5.4.2
 pdfplumber==0.11.5
+

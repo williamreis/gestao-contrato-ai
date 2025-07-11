@@ -125,7 +125,7 @@ def read_root():
         }
 
 
-@router.get("/list", response_model=SearchResponse)
+@router.get("/list", response_model=SearchResponse, operation_id='list_documents')
 def list_documents(
         skip: int = Query(0, description="Número de registros para pular"),
         limit: int = Query(10, description="Número máximo de registros para retornar")
@@ -190,7 +190,7 @@ def list_documents(
         raise HTTPException(status_code=500, detail=f"Erro ao listar documentos: {str(e)}")
 
 
-@router.get("/search", response_model=SearchResponse)
+@router.get("/search", response_model=SearchResponse, operation_id='search_documents')
 def search_documents(
         q: str = Query(..., description="Consulta para busca"),
         limit: int = Query(5, description="Número máximo de resultados")
@@ -247,7 +247,7 @@ def search_documents(
         raise HTTPException(status_code=500, detail=f"Erro ao realizar a busca: {str(e)}")
 
 
-@router.get("/files")
+@router.get("/files", operation_id='list_files')
 def list_files():
     """
     Lista todos os nomes de arquivos únicos no índice.

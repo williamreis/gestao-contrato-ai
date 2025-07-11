@@ -13,7 +13,7 @@
         <span class="badge badge-primary">{(documento.score * 100).toFixed(0)}% relevante</span>
       {/if}
       {#if documento.tipo_documento !== undefined}
-        <span class="badge badge-primary">{documento.tipo_documento}</span>
+        <span class="badge badge-primary">Tipo: {documento.tipo_documento}</span>
       {/if}
     </h2>
     

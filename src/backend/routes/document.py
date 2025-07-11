@@ -171,6 +171,7 @@ def list_documents(
             resultados.append(DocumentResponse(
                 arquivo=match.metadata.get("arquivo", ""),
                 texto=match.metadata.get("texto", ""),
+                tipo_documento=match.metadata.get("tipo_documento", ""),
                 score=match.score
             ))
 
@@ -235,6 +236,7 @@ def search_documents(
                     arquivo=arquivo_nome,
                     texto=match.metadata.get("texto", ""),
                     score=match.score,
+                    tipo_documento=match.metadata.get("tipo_documento", ""),
                     url=url
                 ))
 

@@ -1,6 +1,7 @@
 import os
 import sys
 import time
+import hashlib
 from dotenv import load_dotenv
 from openai import OpenAI
 from pinecone import Pinecone
@@ -99,9 +100,19 @@ def processing_document(caminho_pdf):
         loader = PyPDFLoader(caminho_pdf)
         dados = loader.load()
 
+        # Separadores mais abrangentes para diferentes tipos de documentos
+        separators = [
+            "\n\n", "\n",
+            "CLÁUSULA", "Cláusula",
+            "ARTIGO", "Artigo",
+            "SEÇÃO", "Seção",
+            "TÍTULO", "Título",
+            ". ", " ", ""
+        ]
+
         # Divide em chunks de forma mais inteligente usando separadores específicos para documentos
         splitter = RecursiveCharacterTextSplitter(
-            separators=["\n\n", "\n", "CLÁUSULA", "Cláusula", "ARTIGO", "Artigo", ". ", " ", ""],
+            separators=separators,
             chunk_size=500,  # Chunks um pouco maiores para capturar mais contexto
             chunk_overlap=50  # Maior sobreposição para manter a coerência entre chunks
         )
@@ -109,40 +120,93 @@ def processing_document(caminho_pdf):
 
         print(f"Documento dividido em {len(documentos)} chunks usando chunking semântico")
 
-        # Detecta possíveis seções do documento
+        # Identificação inteligente de seções para diversos tipos de documentos
         def identificar_secao(texto):
             texto_lower = texto.lower()
-            if any(termo in texto_lower for termo in ["locador", "proprietário", "senhorio"]):
-                return "Identificação do Locador"
-            elif any(termo in texto_lower for termo in ["locatário", "inquilino", "arrendatário"]):
-                return "Identificação do Locatário"
-            elif any(termo in texto_lower for termo in ["objeto", "imóvel", "endereço", "localização"]):
-                return "Objeto do Documento"
-            elif any(termo in texto_lower for termo in ["aluguel", "valor", "pagamento", "preço", "reajuste"]):
-                return "Condições de Pagamento"
-            elif any(termo in texto_lower for termo in ["prazo", "vigência", "duração", "término"]):
-                return "Prazo Contratual"
-            elif any(termo in texto_lower for termo in ["rescisão", "multa", "penalidade", "quebra"]):
-                return "Rescisão Contratual"
-            elif any(termo in texto_lower for termo in ["garantia", "fiador", "caução", "depósito"]):
-                return "Garantias Contratuais"
+
+            if any(term in texto_lower for term in
+                   ["locador", "proprietário", "senhorio", "contratante", "empregador"]):
+                return "Parte Contratante / Responsável"
+            elif any(term in texto_lower for term in
+                     ["locatário", "inquilino", "arrendatário", "contratado", "empregado"]):
+                return "Parte Contratada / Envolvido"
+            elif any(term in texto_lower for term in
+                     ["objeto", "finalidade", "escopo", "atribuições", "descrição do serviço"]):
+                return "Objeto / Finalidade do Documento"
+            elif any(term in texto_lower for term in
+                     ["valor", "pagamento", "preço", "remuneração", "salário", "indenização"]):
+                return "Condições Financeiras / Pagamento"
+            elif any(term in texto_lower for term in ["prazo", "vigência", "duração", "início", "término", "validade"]):
+                return "Prazos e Vigência"
+            elif any(term in texto_lower for term in ["rescisão", "multa", "penalidade", "quebra", "sanção"]):
+                return "Rescisão / Penalidades"
+            elif any(term in texto_lower for term in ["garantia", "seguro", "caução", "responsabilidade", "fiador"]):
+                return "Garantias / Responsabilidades"
+            elif any(term in texto_lower for term in ["confidencialidade", "sigilo", "proteção de dados", "lgpd"]):
+                return "Confidencialidade e Proteção de Dados"
+            elif any(term in texto_lower for term in ["foro", "jurisdição", "legislação aplicável", "competência"]):
+                return "Disposições Legais"
+            elif any(term in texto_lower for term in ["assinatura", "aceite", "validade legal"]):
+                return "Assinaturas / Formalização"
             else:
-                return "Outras Cláusulas"
+                return "Outras Disposições"
+
+        def identificar_tipo_documento(texto):
+            texto_lower = texto.lower()
+
+            if any(term in texto_lower for term in ["cláusula", "contratante", "contratado", "rescisão", "vigência"]):
+                return "contrato"
+            elif any(term in texto_lower for term in ["norma", "conduta", "política interna", "compliance"]):
+                return "política"
+            elif any(term in texto_lower for term in ["artigo", "inciso", "capítulo", "regulamento", "regra geral"]):
+                return "regulamento"
+            elif any(term in texto_lower for term in ["laudo", "perícia", "análise técnica", "conclusão pericial"]):
+                return "laudo"
+            elif any(term in texto_lower for term in
+                     ["fatura", "boleto", "demonstrativo", "valor total", "pagamento referente"]):
+                return "financeiro"
+            elif any(term in texto_lower for term in
+                     ["colaborador", "funcionário", "salário", "departamento pessoal", "rh"]):
+                return "rh"
+            elif any(term in texto_lower for term in
+                     ["procuração", "certidão", "petição", "jurídico", "advogado", "ação judicial"]):
+                return "documento jurídico"
+            elif any(term in texto_lower for term in
+                     ["currículo", "experiência profissional", "formação acadêmica", "objetivo profissional"]):
+                return "currículo"
+            elif any(term in texto_lower for term in
+                     ["resumo", "abstract", "introdução", "metodologia", "referências", "revisão de literatura",
+                      "doi"]):
+                return "artigo científico"
+            elif any(term in texto_lower for term in
+                     ["revista", "edição", "editorial", "coluna", "publicação periódica"]):
+                return "revista"
+            elif any(term in texto_lower for term in ["jornal", "notícia", "reportagem", "colunista", "imprensa"]):
+                return "jornal"
+            else:
+                return "desconhecido"
 
         # Processa cada chunk
         for i, doc in enumerate(documentos):
             texto = doc.page_content
 
+            # Gera um hash para o conteúdo do chunk (útil para evitar duplicatas ou identificar conteúdo)
+            chunk_hash = hashlib.md5(texto.encode("utf-8")).hexdigest()
+
             # Metadados enriquecidos
             metadata = {
-                "arquivo": nome_arquivo,
-                "texto": texto,
-                "pagina": doc.metadata.get("page", 0),
-                "secao": identificar_secao(texto),
-                "tamanho_chunk": len(texto),
-                "posicao": i,
-                "total_chunks": len(documentos),
-                "data_processamento": time.strftime("%Y-%m-%d %H:%M:%S")
+                "arquivo": nome_arquivo,  # Nome original do arquivo
+                "texto": texto,  # Conteúdo do chunk
+                "pagina": doc.metadata.get("page", 0),  # Página original, se disponível
+                "secao": identificar_secao(texto),  # Classificação semântica da seção
+                "tamanho_chunk": len(texto),  # Número de caracteres no chunk
+                "posicao": i,  # Posição sequencial do chunk no documento
+                "total_chunks": len(documentos),  # Total de chunks do documento
+                "data_processamento": time.strftime("%Y-%m-%d %H:%M:%S"),  # Timestamp
+                "id_chunk": f"{nome_arquivo}_{i}",  # ID único do chunk
+                "hash_conteudo": chunk_hash,  # Hash MD5 do texto para controle e rastreabilidade
+                "tipo_documento": identificar_tipo_documento(texto),  # Ex: contrato, política etc.
+                "origem": doc.metadata.get("origem", "upload_usuario"),  # Ex: upload, API, integração externa
             }
 
             # Gera um ID único

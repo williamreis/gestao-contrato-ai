@@ -10,6 +10,7 @@ class DocumentBase(BaseModel):
 class DocumentResponse(DocumentBase):
     score: float = 0.0
     url: str
+    tipo_documento: str
 
 
 class SearchResponse(BaseModel):

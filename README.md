@@ -4,28 +4,6 @@ Modelo de sistema para processamento e consulta semântica de documentos, basead
 
 > **Atenção:** O objetivo deste projeto é apoiar estudos sobre IA generativa e a aplicação de RAG em sistemas de recuperação de informação. Sinta-se à vontade para explorar, adaptar e evoluir o código. Espero que seja útil nos seus aprendizados!
 
-## Estrutura do Projeto
-
-```
-├── docker-compose.yml           # Orquestração dos serviços backend e frontend
-├── LICENSE                      # Licença do projeto
-├── README.md                    # Documentação principal
-├── src/
-│   ├── backend/
-│   │   ├── Dockerfile           # Dockerfile do backend
-│   │   ├── main.py              # Ponto de entrada do backend FastAPI
-│   │   ├── requirements.txt     # Dependências Python
-│   │   ├── routes/              # Rotas da API (document, llm, storage, upload)
-│   │   ├── schemas/             # Schemas Pydantic para validação
-│   │   ├── storage/             # Contratos PDF armazenados
-│   │   └── utils/               # Utilitários (ex: processing_document.py, pinecone.py)
-│   └── frontend/
-│       ├── Dockerfile           # Dockerfile do frontend
-│       ├── package.json         # Dependências do frontend
-│       ├── svelte.config.js     # Configuração do SvelteKit
-│       ├── tailwind.config.js   # Configuração do Tailwind CSS
-│       ├── src/                 # Código-fonte do frontend
-```
 ## Requisitos
 
 - Conta no Pinecone (https://www.pinecone.io/)
@@ -68,13 +46,29 @@ Isso irá construir e iniciar todos os serviços necessários (backend e fronten
 
 - Acesse o frontend em: http://localhost:3000
 - Acesse a API backend em: http://localhost:8002
+- URL do servidor MCP: http://localhost:8002/mcp
 
+## Conectando com Model Context Protocol (MCP)
+
+Para integrar o cliente com o Model Context Protocol (MCP), você deve configurar em seu cliente a URL do servidor MCP:
+
+```bash
+{
+  "mcpServers": {
+    "documento-rag-mcp": {
+      "url": "http://localhost:8002/mcp"
+    }
+  }
+}
+```
+
+> **Obs:** O MCP permite que você interaja com o sistema de forma padronizada, facilitando a consulta e o processamento de documentos.
 ## Tecnologias
 
 - **Backend**:
   - Python
   - FastAPI
-  - FastAPIMCP
+  - FastAPI-MCP
   - Uvicorn (servidor ASGI)
   - Pinecone (banco de dados vetorial)
   - OpenAI Embeddings (modelo text-embedding-3-small)
@@ -86,9 +80,32 @@ Isso irá construir e iniciar todos os serviços necessários (backend e fronten
   - Tailwind CSS
   - DaisyUI
 
+## Estrutura do Projeto
+
+```
+├── docker-compose.yml           # Orquestração dos serviços backend e frontend
+├── LICENSE                      # Licença do projeto
+├── README.md                    # Documentação principal
+├── src/
+│   ├── backend/
+│   │   ├── Dockerfile           # Dockerfile do backend
+│   │   ├── main.py              # Ponto de entrada do backend FastAPI
+│   │   ├── requirements.txt     # Dependências Python
+│   │   ├── routes/              # Rotas da API (document, llm, storage, upload)
+│   │   ├── schemas/             # Schemas Pydantic para validação
+│   │   ├── storage/             # Contratos PDF armazenados
+│   │   └── utils/               # Utilitários (ex: processing_document.py, pinecone.py)
+│   └── frontend/
+│       ├── Dockerfile           # Dockerfile do frontend
+│       ├── package.json         # Dependências do frontend
+│       ├── svelte.config.js     # Configuração do SvelteKit
+│       ├── tailwind.config.js   # Configuração do Tailwind CSS
+│       ├── src/                 # Código-fonte do frontend
+```
+
 ## Documentação das APIs
 
-### API de Busca Semântica (api_pinecone.py)
+**Base URL**: http://localhost:8002
 
 **Porta**: 8002
 

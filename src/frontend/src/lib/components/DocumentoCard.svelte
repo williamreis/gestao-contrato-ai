@@ -26,6 +26,11 @@
       <button class="btn btn-sm" on:click={() => expanded = !expanded}>
         {expanded ? 'Mostrar menos' : 'Mostrar mais'}
       </button>
+      {#if documento.url}
+        <a class="btn btn-sm btn-primary" href={documento.url} target="_blank" download>
+          Baixar PDF
+        </a>
+      {/if}
     </div>
   </div>
 </div>

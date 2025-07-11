@@ -33,13 +33,14 @@ PINECONE_HOST=
 PINECONE_INDEX_NAME=documento-rag
 
 ```
+Para configurar o Pinecone [Acesse Aqui](docs/pinecone.md)
 
 ## Executando com Docker Compose
 
 Para facilitar a execução do projeto, você pode utilizar o Docker Compose. Certifique-se de ter o Docker e o Docker Compose instalados em sua máquina.
 
 ```bash
-docker-compose up -d --build
+docker-compose up -d
 ```
 
 Isso irá construir e iniciar todos os serviços necessários (backend e frontend) definidos no arquivo `docker-compose.yml`.

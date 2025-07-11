@@ -221,13 +221,19 @@ def search_documents(
             include_metadata=True
         )
 
+        # Defina um threshold de similaridade (ajuste conforme necessário)
+        SCORE_THRESHOLD = 0.30
+
         resultados = []
         for match in resultados_query.matches:
-            resultados.append(DocumentResponse(
-                arquivo=match.metadata.get("arquivo", ""),
-                texto=match.metadata.get("texto", ""),
-                score=match.score
-            ))
+            xx = match.metadata.get("texto", "")
+            print(f"Match {match.score} / {xx}")
+            if match.score >= SCORE_THRESHOLD:
+                resultados.append(DocumentResponse(
+                    arquivo=match.metadata.get("arquivo", ""),
+                    texto=match.metadata.get("texto", ""),
+                    score=match.score
+                ))
 
         total = len(resultados)
 

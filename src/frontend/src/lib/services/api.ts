@@ -20,6 +20,7 @@ export interface Documento {
   arquivo: string;
   texto: string;
   score?: number;
+  tipo_documento: string;
 }
 
 export interface SearchResponse {

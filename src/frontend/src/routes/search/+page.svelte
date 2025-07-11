@@ -21,16 +21,17 @@
     if (urlQuery) {
       searchQuery = urlQuery;
       performSearch(searchQuery);
-    } else {
-      loadDocumentos();
     }
+    //} else {
+     // loadDocumentos();
+   // }
   }
   
-  onMount(() => {
-    if (!searchQuery) {
-      loadDocumentos();
-    }
-  });
+  //onMount(() => {
+    //if (!searchQuery) {
+    //  loadDocumentos();
+  //  }
+ // });
   
   async function loadDocumentos(page = 1) {
     isLoading = true;
@@ -100,7 +101,7 @@
 
 <div class="mb-8">
   <h1 class="text-3xl font-bold mb-6">
-    {searchQuery ? 'Resultados da Busca' : 'Todos os Documentos'}
+    {searchQuery ? 'Resultados da Busca' : 'Lista de Todos os Documentos'}
   </h1>
   
   <div class="flex items-center gap-4">
@@ -111,7 +112,7 @@
     />
     
     <label class="cursor-pointer labelx">
-      <span class="label-text mr-3">Assistente IA</span>
+      <span class="label-text mr-3">Assistente de IA</span>
       <input 
         type="checkbox" 
         class="toggle toggle-primary" 
@@ -132,15 +133,15 @@
     </svg>
     <span>{error}</span>
   </div>
-{:else if resultados.length === 0}
+{:else if resultados.length === 0 && searchQuery}
   <div class="alert shadow-lg my-6">
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info flex-shrink-0 w-6 h-6">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
     </svg>
     <span>
-      {searchQuery 
-        ? `Nenhum resultado encontrado para "${searchQuery}". Tente uma busca diferente.` 
-        : 'Nenhum documento disponível no momento.'}
+      {searchQuery
+        ? `Nenhum resultado encontrado para "${searchQuery}". Tente uma busca diferente.`
+        : ''}
     </span>
   </div>
 {:else}

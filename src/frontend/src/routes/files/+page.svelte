@@ -10,7 +10,7 @@ onMount(async () => {
     const res = await fetch(`${UPLOAD_API_URL}/storage/list`);
     if (!res.ok) throw new Error('Erro ao buscar arquivos');
     const data = await res.json();
-    arquivos = Array.isArray(data) ? data : [];
+    arquivos = Array.isArray(data.documentos) ? data.documentos : [];
   } catch (e) {
     error = e.message || 'Erro desconhecido';
   } finally {
@@ -20,7 +20,7 @@ onMount(async () => {
 </script>
 
 <div class="max-w-2xl mx-auto p-6">
-  <h1 class="text-2xl font-bold mb-4">Arquivos no Storage</h1>
+  <h1 class="text-2xl font-bold mb-4">Documentos</h1>
   {#if loading}
     <div class="text-gray-500">Carregando...</div>
   {:else if error}
@@ -32,7 +32,7 @@ onMount(async () => {
       {#each arquivos as arquivo}
         <li class="p-3 flex items-center justify-between">
           <span class="truncate">{arquivo.nome}</span>
-          <a class="btn btn-sm btn-primary" href={`/api/storage/${encodeURIComponent(arquivo)}`} target="_blank">Baixar</a>
+          <a class="btn btn-sm btn-primary" href={`http://localhost:8002${arquivo.url}`} target="_blank">Baixar</a>
         </li>
       {/each}
     </ul>

@@ -26,13 +26,13 @@
      // loadDocumentos();
    // }
   }
-  
+
   //onMount(() => {
     //if (!searchQuery) {
     //  loadDocumentos();
   //  }
  // });
-  
+
   async function loadDocumentos(page = 1) {
     isLoading = true;
     error = '';
@@ -97,6 +97,18 @@
       loadDocumentos(page);
     }
   }
+
+  function limparBusca() {
+    searchQuery = '';
+    resultados = [];
+    total = 0;
+    error = '';
+    llmResponse = null;
+    // Remove o parâmetro da URL
+    const url = new URL(window.location.href);
+    url.searchParams.delete('q');
+    history.pushState({}, '', url);
+  }
 </script>
 
 <div class="mb-8">
@@ -110,12 +122,22 @@
       placeholder={useLLM ? "Faça uma pergunta sobre algum documento..." : "Buscar em documentos..."}
       on:search={handleSearch}
     />
-    
-    <label class="cursor-pointer labelx">
-      <span class="label-text mr-3">Assistente de IA</span>
-      <input 
-        type="checkbox" 
-        class="toggle toggle-primary" 
+    <button
+      class="btn btn-outline btn-md"
+      on:click={() => limparBusca()}
+      aria-label="Limpar busca"
+      type="button"
+      disabled={searchQuery.length === 0}
+    >
+      Limpar
+    </button>
+  </div>
+  <div class="flex items-center gap-12">
+    <label class="cursor-pointer label">
+      <span class="label-text mr-3">Utilizar Assistência de IA?</span><br>
+      <input
+        type="checkbox"
+        class="toggle toggle-primary"
         bind:checked={useLLM}
       />
     </label>
@@ -133,7 +155,7 @@
     </svg>
     <span>{error}</span>
   </div>
-{:else if resultados.length === 0 && searchQuery}
+{:else if resultados.length === 0 && searchQuery > 0}
   <div class="alert shadow-lg my-6">
     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" class="stroke-info flex-shrink-0 w-6 h-6">
       <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>

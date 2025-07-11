@@ -172,7 +172,7 @@ def processing_document(caminho_pdf):
                      ["procuração", "certidão", "petição", "jurídico", "advogado", "ação judicial"]):
                 return "documento jurídico"
             elif any(term in texto_lower for term in
-                     ["currículo", "experiência profissional", "formação acadêmica", "objetivo profissional"]):
+                     ["currículo", "experiência profissional", "profissional", "resumo profissional", "habilidades técnicas", "experiência profissional", "formação acadêmica", "objetivo profissional"]):
                 return "currículo"
             elif any(term in texto_lower for term in
                      ["resumo", "abstract", "introdução", "metodologia", "referências", "revisão de literatura",

@@ -109,17 +109,18 @@ Para integrar o cliente com o Model Context Protocol (MCP), você deve configura
 
 **Porta**: 8002
 
-| Endpoint            | Método | Descrição                                                        | Parâmetros                                                                                  |
-|---------------------|--------|------------------------------------------------------------------|---------------------------------------------------------------------------------------------|
-| `/docs`             | GET | Swagger                                                          | Documentação da API                                                                         | - |
-| `/health`           | GET | Verifica o status da API e a conexão com o Pinecone              | -                                                                                           |
-| `/document/list`    | GET | Lista todos os documentos disponíveis                            | `skip`: número de registros para pular<br>`limit`: número máximo de registros para retornar |
-| `/document/search`  | GET | Realiza uma busca semântica nos documentos                       | `q`: consulta para busca<br>`limit`: número máximo de resultados                            |
-| `/document/files`   | GET | Lista todos os nomes de arquivos únicos no índice                | -                                                                                           |
-| `/llm/ask`          | POST | Responde a perguntas sobre documentos usando o LLM               | Body JSON: `{"question": "string", "max_results": int}`                                     |
-| `/storage/list`     | GET | Lista todos os documentos disponíveis na pasta de documentos     | -                                                                                           |
-| `/storage/upload`   | POST | Faz upload de um novo documento PDF e o processa automaticamente | Form Data: `file`: arquivo PDF                                                              |
-| `/storage/download` | GET | Permitir o download do arquivo armazenado                        | -                                                                                           |
+| Endpoint                  | Método  | Descrição                                                        | Parâmetros                                                                                  |
+|---------------------------|---------|------------------------------------------------------------------|---------------------------------------------------------------------------------------------|
+| `/docs`                   | GET     | Swagger                                                          | Documentação da API                                                                         | - |
+| `/health`                 | GET     | Verifica o status da API e a conexão com o Pinecone              | -                                                                                           |
+| `/document/list`          | GET     | Lista todos os documentos disponíveis                            | `skip`: número de registros para pular<br>`limit`: número máximo de registros para retornar |
+| `/document/search`        | GET     | Realiza uma busca semântica nos documentos                       | `q`: consulta para busca<br>`limit`: número máximo de resultados                            |
+| `/document/files`         | GET     | Lista todos os nomes de arquivos únicos no índice                | -                                                                                           |
+| `/document/delete/{filename}` | DELETE  | Remove o registro do documento do Pinecone e deleta o arquivo    | `filename`: nome do arquivo                                                                 |
+| `/llm/ask`                | POST    | Responde a perguntas sobre documentos usando o LLM              | Body JSON: `{"question": "string", "max_results": int}`                                     |
+| `/storage/list`           | GET     | Lista todos os documentos disponíveis na pasta de documentos     | -                                                                                           |
+| `/storage/upload`         | POST    | Faz upload de um novo documento PDF e o processa automaticamente | Form Data: `filename`: arquivo PDF                                                          |
+| `/storage/download/{filename}`       | GET     | Permitir o download do arquivo armazenado                        | -                                                                                           |
 
 
 > **Licença:** Este projeto está licenciado sob a [Licença MIT](LICENSE). Você pode usar, modificar e distribuir este código livremente, inclusive para fins pessoais e comerciais, desde que mantenha a atribuição de autoria original.

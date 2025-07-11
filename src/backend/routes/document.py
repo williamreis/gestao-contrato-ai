@@ -1,6 +1,6 @@
 import os
 import time
-from fastapi import APIRouter, Query, HTTPException, status
+from fastapi import APIRouter, Query, HTTPException, status, Response
 from openai import OpenAI
 from pinecone import Pinecone
 from schemas.document import DocumentResponse, SearchResponse
@@ -311,3 +311,47 @@ def list_files():
                 pass
 
         raise HTTPException(status_code=500, detail=f"Erro ao listar arquivos: {str(e)}")
+
+
+@router.delete("/delete/{filename}", status_code=204)
+def delete_document(filename: str):
+    """
+    Remove o registro do documento do Pinecone e deleta o arquivo do sistema.
+    """
+    global index
+
+    # Verifica conexão com Pinecone
+    if not index and not conectar_pinecone():
+        raise HTTPException(
+            status_code=503,
+            detail="Serviço temporariamente indisponível. Não foi possível conectar ao Pinecone."
+        )
+
+    try:
+        # Busca todos os vetores com metadata 'filename' igual ao nome informado
+        dummy_vector = [0.0] * 1536
+        resultados_query = index.query(
+            vector=dummy_vector,
+            top_k=1000,
+            include_metadata=True
+        )
+        ids_para_deletar = [
+            match.id for match in resultados_query.matches
+            if match.metadata.get("arquivo") == filename
+        ]
+
+        if not ids_para_deletar:
+            raise HTTPException(status_code=404, detail="Documento não encontrado no Pinecone.")
+
+        # Remove os vetores do Pinecone
+        index.delete(ids=ids_para_deletar)
+
+        # Remove o arquivo do sistema
+        caminho_arquivo = os.path.join("storage", filename)
+        if os.path.exists(caminho_arquivo):
+            os.remove(caminho_arquivo)
+
+        return Response(status_code=204)
+
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Erro ao remover documento: {str(e)}")

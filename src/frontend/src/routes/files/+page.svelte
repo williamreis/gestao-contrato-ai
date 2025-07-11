@@ -4,6 +4,19 @@ let arquivos: string[] = [];
 let loading = true;
 let error = '';
 
+async function deletarArquivo(nome: string) {
+  if (!confirm(`Deseja realmente deletar o arquivo "${nome}"?`)) return;
+  try {
+    const res = await fetch(`http://localhost:8002/document/delete/${encodeURIComponent(nome)}`, {
+      method: 'DELETE'
+    });
+    if (!res.ok) throw new Error('Erro ao deletar arquivo');
+    arquivos = arquivos.filter(a => a.nome !== nome);
+  } catch (e) {
+    error = e.message || 'Erro desconhecido';
+  }
+}
+
 onMount(async () => {
   try {
     const UPLOAD_API_URL = 'http://localhost:8002';
@@ -33,6 +46,9 @@ onMount(async () => {
         <li class="p-3 flex items-center justify-between">
           <span class="truncate">{arquivo.nome}</span>
           <a class="btn btn-sm btn-primary" href={`http://localhost:8002${arquivo.url}`} target="_blank">Baixar</a>
+          <button class="btn btn-sm btn-danger ml-2" on:click={() => deletarArquivo(arquivo.nome)}>
+            Deletar
+          </button>
         </li>
       {/each}
     </ul>

@@ -70,7 +70,7 @@
     {/if}
     
     <div class="card-actions justify-end">
-      <a href="/documentos" class="btn btn-primary">Ver Documentos</a>
+      <a href="/search" class="btn btn-primary">Ver Documentos</a>
     </div>
   </div>
 </div>

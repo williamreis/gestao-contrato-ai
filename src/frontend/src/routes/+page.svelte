@@ -17,7 +17,7 @@
   function handleSearch(event: CustomEvent<string>) {
     const query = event.detail;
     if (query) {
-      goto(`/documentos?q=${encodeURIComponent(query)}`);
+      goto(`/search?q=${encodeURIComponent(query)}`);
     }
   }
 </script>

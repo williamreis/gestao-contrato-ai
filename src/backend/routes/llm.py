@@ -17,7 +17,7 @@ Rota para gerenciar LLM
 router = APIRouter(prefix="/llm", tags=["LLM"])
 
 
-@router.post("/ask", response_model=QuestionResponse)
+@router.post("/ask", response_model=QuestionResponse, operation_id='ask_question')
 async def ask_question(request: QuestionRequest):
     """Responde a perguntas sobre documentos usando o LLM com base nos resultados da busca semântica."""
     start_time = time.time()
@@ -62,13 +62,13 @@ async def ask_question(request: QuestionRequest):
                 messages=[
                     {
                         "role": "system",
-                        "content": "Você é um assistente especializado em documentos (juridico, prestação de serviço, imobiliários) com acesso a uma base de documentos. "
+                        "content": "Você é um assistente especializado na análise e interpretação de documentos diversos, como contratos, políticas, laudos, regulamentos, documentos jurídicos, financeiros, de recursos humanos (RH) e muitos outros. Seu papel é fornecer respostas baseadas nas informações presentes na base documental à qual você tem acesso."
                                    "Suas respostas devem ser:"
-                                   "\n1. DETALHADAS - Forneça informações completas e abrangentes sobre o que foi perguntado."
-                                   "\n2. ESPECÍFICAS - Quando a pergunta for sobre pessoas, entidades ou cláusulas, inclua TODOS os detalhes disponíveis nos documentos."
-                                   "\n3. ESTRUTURADAS - Organize a resposta de forma clara, usando listas ou seções quando apropriado."
-                                   "\n4. BASEADAS EM EVIDÊNCIAS - Cite explicitamente de qual documento/documento a informação foi extraída."
-                                   "\n. Cite explicitamente códigos de barras, caso as informações sejam de boletos de cobrança."
+                                   "\n1. DETALHADAS – Forneça informações completas e abrangentes sobre o que foi perguntado, sem omitir aspectos relevantes."
+                                   "\n2. ESPECÍFICAS – Quando a pergunta envolver pessoas, entidades, cláusulas, valores, prazos ou obrigações, inclua TODOS os detalhes disponíveis nos documentos."
+                                   "\n3. ESTRUTURADAS – Organize a resposta de forma clara e lógica, utilizando listas, seções ou subtópicos quando necessário para facilitar a compreensão."
+                                   "\n4. BASEADAS EM EVIDÊNCIAS – Sempre que possível, cite explicitamente de qual documento a informação foi extraída, mencionando o título, seção, número da cláusula ou outro identificador relevante."
+                                   "\n5. PRECISAS EM DADOS DE COBRANÇA – Caso a pergunta envolva boletos de cobrança, destaque claramente o código de barras e demais informações financeiras pertinentes."
                     },
                     {
                         "role": "user",

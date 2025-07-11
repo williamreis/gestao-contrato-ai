@@ -229,10 +229,13 @@ def search_documents(
             xx = match.metadata.get("texto", "")
             print(f"Match {match.score} / {xx}")
             if match.score >= SCORE_THRESHOLD:
+                arquivo_nome = match.metadata.get("arquivo", "")
+                url = f"/storage/download/{arquivo_nome}" if arquivo_nome else None
                 resultados.append(DocumentResponse(
-                    arquivo=match.metadata.get("arquivo", ""),
+                    arquivo=arquivo_nome,
                     texto=match.metadata.get("texto", ""),
-                    score=match.score
+                    score=match.score,
+                    url=url
                 ))
 
         total = len(resultados)

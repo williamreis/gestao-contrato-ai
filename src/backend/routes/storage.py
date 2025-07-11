@@ -2,6 +2,7 @@ import os
 import time
 import shutil
 from fastapi import APIRouter, UploadFile, File, HTTPException, BackgroundTasks, status
+from fastapi.responses import FileResponse
 from utils.processing_document import processing_document
 
 """
@@ -83,14 +84,26 @@ async def list_storage():
                 data_modificacao = os.path.getmtime(caminho_completo)
 
                 data_formatada = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(data_modificacao))
-
+                url = f"/storage/download/{arquivo}"
                 documentos.append({
                     "nome": arquivo,
                     "tamanho_bytes": tamanho,
-                    "data_modificacao": data_formatada
+                    "data_modificacao": data_formatada,
+                    "url": url
                 })
 
         return {"documentos": documentos, "total": len(documentos)}
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Erro ao listar documentos: {str(e)}")
+
+
+@router.get("/download/{filename}")
+async def download_storage(filename: str):
+    """
+    Disponibiliza o arquivo PDF para download.
+    """
+    caminho_arquivo = os.path.join(PASTA_DOCUMENTOS, filename)
+    if not os.path.exists(caminho_arquivo):
+        raise HTTPException(status_code=404, detail="Arquivo não encontrado")
+    return FileResponse(caminho_arquivo, media_type="application/pdf", filename=filename)

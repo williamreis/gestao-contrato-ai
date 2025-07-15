@@ -1,3 +1,5 @@
+![Image](docs/images/destaque.png "Gestão de Documento com RAG")
+
 #  Gestão de Documento com RAG
 
 Modelo de sistema para processamento e consulta semântica de documentos, baseado em IA generativa. Desenvolvido com Python, LangChain, Pinecone e SvelteKit, integra o MCP (Model Context Protocol) e utiliza técnicas de embeddings e RAG (Retrieval-Augmented Generation) para permitir buscas contextuais e perguntas em linguagem natural.
